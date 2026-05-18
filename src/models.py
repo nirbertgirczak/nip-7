@@ -102,3 +102,7 @@ class TenantSettlement(BaseModel):
     total_due_pln: float
     total_transfers_pln: float = 0.0
     balance_pln: float = 0.0
+
+class BlackList(BaseModel):
+    full_name: str
+    reason: str
