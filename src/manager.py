@@ -1,4 +1,4 @@
-from src.models import Apartment, Bill, Parameters, Tenant, TenantSettlement, Transfer, ApartmentSettlement
+from src.models import Apartment, Bill, Parameters, Tenant, TenantSettlement, Transfer, ApartmentSettlement, BlackList
 from typing import List, Tuple
 
 class Manager:
@@ -11,6 +11,7 @@ class Manager:
         self.bills = []
        
         self.load_data()
+        self.blacklist=self.load_blacklist()
 
     def load_data(self):
         self.apartments = Apartment.from_json_file(self.parameters.apartments_json_path)
@@ -112,3 +113,9 @@ class Manager:
         if apartment_key not in self.apartments:
             raise ValueError("Apartment key does not exist")
         return any([bill for bill in self.bills if bill.apartment == apartment_key and bill.settlement_year == year and bill.settlement_month == month])
+    
+    def load_blacklist(self):
+        return BlackList.from_json_file(self.parameters.blacklist_json_path)
+        
+    def is_blacklisted(self, name):
+        return name in self.blacklist
