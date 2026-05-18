@@ -118,7 +118,7 @@ class Manager:
         return BlackList.from_json_file(self.parameters.blacklist_json_path)
         
     def is_blacklisted(self, name):
-        return name in self.blacklist
+        return any(person.full_name == name for person in self.blacklist)
     def validate_transfer_amount(self, amount: float, min_value: float, max_value: float) -> bool:
         if amount <=0:
             raise ValueError("Kwota musi byc dodatnia")
