@@ -119,3 +119,11 @@ class Manager:
         
     def is_blacklisted(self, name):
         return name in self.blacklist
+    def validate_transfer_amount(self, amount: float, min_value: float, max_value: float) -> bool:
+        if amount <=0:
+            raise ValueError("Kwota musi byc dodatnia")
+        if amount < min_value:
+            raise ValueError("Kwota jest zbyt niska")
+        if amount > max_value:
+            raise ValueError("Kwota jest zbyt wysoka")
+        return True
