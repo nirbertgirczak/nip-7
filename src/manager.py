@@ -115,7 +115,15 @@ class Manager:
         return any([bill for bill in self.bills if bill.apartment == apartment_key and bill.settlement_year == year and bill.settlement_month == month])
     
     def load_blacklist(self):
-        return BlackList.from_json_file(self.parameters.blacklist_json_path)
+        import json
+        try:
+            path = self.parameters.blacklist_json_path
+            with open(path, 'r') as f:
+                return json.load(f)
+        except (FileNotFoundError, AttributeError, json.JSONDecodeError):
+            return {}
+        # return BlackList.from_json_file(self.parameters.blacklist_json_path)
         
     def is_blacklisted(self, name):
-        return name in self.blacklist
+        blacklist_data = self.load_blacklist()
+        return name in blacklist_data
